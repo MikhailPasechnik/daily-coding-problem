@@ -10,10 +10,11 @@
  * Follow-up: what if you can't use division?
  * */
 #include <vector>
+#include <cassert>
 
 using namespace std;
 
-vector<int> prod_array(vector<int> &v)
+vector<int> prod_array(vector<int> v)
 {
 	auto result = vector<int>(v.size());
 	auto a = vector<int>(v.size());
@@ -63,7 +64,8 @@ vector<int> prod_array(vector<int> &v)
 
 int main()
 {
-	vector<int> v2 = {1, 2, 3};
-	prod_array(v2);
+	assert(prod_array((vector<int>){1, 2, 3, 4, 5}) == ((vector<int>){120, 60, 40, 30, 24}));
+	assert(prod_array((vector<int>){1}) == ((vector<int>){1}));
+	assert(prod_array((vector<int>){0, 1}) == ((vector<int>){1, 0}));
 	return 0;
 }

@@ -10,11 +10,12 @@
  * */
 #include <vector>
 #include <set>
+#include <cassert>
 
 using namespace std;
 
 
-bool adds_up(vector<int> &v, int k)
+bool adds_up(vector<int> v, int k)
 {
 	set<int> s;
 	for (int i: v)
@@ -31,7 +32,6 @@ bool adds_up(vector<int> &v, int k)
 
 int main()
 {
-	vector<int> v = {10, 15, 3, 7};
-	int k = 17;
-	adds_up(v, k);
+	assert(adds_up((vector<int>){10, 15, 3, 7}, 17));
+	assert(!adds_up((vector<int>){}, 17));
 }

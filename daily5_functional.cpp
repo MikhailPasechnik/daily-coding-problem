@@ -14,8 +14,8 @@
  *
  * We will be sending the so
  * */
-#include <iostream>
 #include <functional>
+#include <cassert>
 
 using namespace std;
 
@@ -43,7 +43,7 @@ int cdr(const function<int(function<int(int, int)>)>& pair)
 
 int main()
 {
-	cout << "car(cons(1, 2)): " << car(cons(-12, 22)) << "\n";
-	cout << "cdr(cons(1, 2)): " << cdr(cons(-12, 22)) << "\n";
+	assert(car(cons(-12, 22)) == -12);
+	assert(cdr(cons(-12, 22)) == 22);
 	return 0;
 }
