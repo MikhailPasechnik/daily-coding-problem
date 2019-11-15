@@ -15,14 +15,25 @@
  * */
 
 #include <cassert>
-#include <vector>
+#include <string>
 
 using namespace std;
 
-int count_decode_ways(vector<int> msg)
+int count_decode_ways(string msg)
 {
 	// Leaf node hit, count it
 	if (msg.empty()) return 1;
+
+	int r = 0;
+	int x, y;
+
+	// Check that meg can be decoded
+	// first in range [1..9]
+	if ((x = msg[0] - 48) < 1 || x > 9)
+		return 0;
+	// second if exists and in range [1..9]
+	if (msg.size() > 1 && ((y = msg[1] - 48) < 1  || y > 9))
+		return 0;
 
 	/*
 	 * Descend tree accumulating leaf count
@@ -31,20 +42,23 @@ int count_decode_ways(vector<int> msg)
 	 *	(x)      ()
 	 *	|
 	 * ()
-	 *
 	 * */
-	int r = 0;
-
-	r += count_decode_ways(vector<int>(msg.begin() + 1, msg.end()));
-
-	if (msg.size() > 1 && msg[0] * 10 + msg[1] <= 26)
-		r += count_decode_ways(vector<int>(msg.begin() + 2, msg.end()));
-
+	r += count_decode_ways(string(msg.begin() + 1, msg.end()));
+	if (msg.size() > 1)
+	{
+		if (x * 10 + y <= 26)
+			r += count_decode_ways(string(msg.begin() + 2, msg.end()));
+	}
 	return r;
 }
 
 int main()
 {
+	// Test messages is not decodable
+	assert(count_decode_ways("0") == 0);
+	assert(count_decode_ways("6x") == 0);
+	assert(count_decode_ways(" 2") == 0);
+
 	/*
 	 * 				(1, 1, 1)
 	 * 				/		\
@@ -55,7 +69,8 @@ int main()
 	 *     ()
 	 *     ^
 	 * */
-	 assert(count_decode_ways((vector<int>){1,1,1}) == 3);
+	 assert(count_decode_ways("111") == 3);
+
 	/*
 	 * 				(2, 2, 7)
 	 * 				/
@@ -66,7 +81,8 @@ int main()
 	 *     ()
 	 *     ^
 	 * */
-	assert(count_decode_ways((vector<int>){2,2,7}) == 2);
+	assert(count_decode_ways("227") == 2);
+
 	/*
 	 * 				(2, 7, 2)
 	 * 				/
@@ -77,7 +93,8 @@ int main()
 	 *     ()
 	 *     ^
 	 * */
-	assert(count_decode_ways((vector<int>){2,7,2}) == 1);
+	assert(count_decode_ways("272") == 1);
+
 	/*
 	 * 				(2, 7, 2, 9, 1)
 	 * 				/
@@ -90,7 +107,8 @@ int main()
 	 *    ()
 	 *    ^
 	 * */
-	assert(count_decode_ways((vector<int>){2,7,2,9,1}) == 1);
+	assert(count_decode_ways("27291") == 1);
+
 	/*
 	 * 				(2, 7, 2, 6, 1)
 	 * 				/
@@ -103,6 +121,7 @@ int main()
 	 *    ()    ^
 	 *    ^
 	 * */
-	assert(count_decode_ways((vector<int>){2,7,2,6,1}) == 2);
+	assert(count_decode_ways("27261") == 2);
+
 	return 0;
 }
