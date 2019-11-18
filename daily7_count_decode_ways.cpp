@@ -19,7 +19,7 @@
 
 using namespace std;
 
-int count_decode_ways(string msg)
+int _count_decode_ways(string msg)
 {
 	// Leaf node hit, count it
 	if (msg.empty()) return 1;
@@ -43,18 +43,24 @@ int count_decode_ways(string msg)
 	 *	|
 	 * ()
 	 * */
-	r += count_decode_ways(string(msg.begin() + 1, msg.end()));
+	r += _count_decode_ways(string(msg.begin() + 1, msg.end()));
 	if (msg.size() > 1)
 	{
 		if (x * 10 + y <= 26)
-			r += count_decode_ways(string(msg.begin() + 2, msg.end()));
+			r += _count_decode_ways(string(msg.begin() + 2, msg.end()));
 	}
 	return r;
+}
+
+int count_decode_ways(const string& msg)
+{
+	return msg.empty() ? 0: _count_decode_ways(msg);
 }
 
 int main()
 {
 	// Test messages is not decodable
+	assert(count_decode_ways("") == 0);
 	assert(count_decode_ways("0") == 0);
 	assert(count_decode_ways("6x") == 0);
 	assert(count_decode_ways(" 2") == 0);
